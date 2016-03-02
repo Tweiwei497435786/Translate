@@ -57,12 +57,7 @@
       debugXPCServices = "NO"
       debugServiceExtension = "internal"
       allowLocationSimulation = "NO"
-      launchAutomaticallySubstyle = "2"
       viewDebuggingEnabled = "No">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         FilePath = "/&lt;placeholder&gt;">
-      </PathRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
