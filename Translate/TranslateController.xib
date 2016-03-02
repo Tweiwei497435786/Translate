@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="9060"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TranslateController">
+            <connections>
+                <outlet property="webView" destination="TfE-9p-IS1" id="Kq6-PO-SQM"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" fullSizeContentView="YES"/>
+            <rect key="contentRect" x="196" y="240" width="800" height="600"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TfE-9p-IS1">
+                        <rect key="frame" x="0.0" y="-200" width="800" height="800"/>
+                        <animations/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                            <nil key="identifier"/>
+                        </webPreferences>
+                    </webView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="TfE-9p-IS1" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="3Ah-To-P5O"/>
+                    <constraint firstAttribute="bottom" secondItem="TfE-9p-IS1" secondAttribute="bottom" id="8pu-UJ-awH"/>
+                    <constraint firstItem="TfE-9p-IS1" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="Ev0-dt-0Jg"/>
+                    <constraint firstItem="TfE-9p-IS1" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="X1J-qv-Ae3"/>
+                    <constraint firstAttribute="trailing" secondItem="TfE-9p-IS1" secondAttribute="trailing" id="ZcK-u4-v9L"/>
+                    <constraint firstAttribute="trailing" secondItem="TfE-9p-IS1" secondAttribute="trailing" id="uct-PT-hrf"/>
+                    <constraint firstItem="TfE-9p-IS1" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="vFV-yF-D1X"/>
+                    <constraint firstAttribute="bottom" secondItem="TfE-9p-IS1" secondAttribute="bottom" id="yJM-mh-mYs"/>
+                </constraints>
+                <animations/>
+            </view>
+            <contentBorderThickness minY="32"/>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+        </window>
+    </objects>
+</document>
