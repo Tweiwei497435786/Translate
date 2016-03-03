@@ -8,6 +8,7 @@
 
 #import "Translate.h"
 #include "TranslateController.h"
+#import <WebKit/WebKit.h>
 
 
 #define kAPI    @"http://translate.google.cn/?hl=en#en/zh-CN/"
@@ -58,9 +59,12 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(selectContentChanged:)
-                                                 name:NSTextViewDidChangeSelectionNotification
-                                               object:nil];
+                                             selector:@selector(p_textViewDidChangeSelectionNotification:)
+                                                 name:NSTextViewDidChangeSelectionNotification                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(p_webViewDidChangeSelectionNotification:)
+                                                 name:WebViewDidChangeSelectionNotification                                                object:nil];
 }
 
 
@@ -76,7 +80,7 @@
     }
 }
 
-- (void)selectContentChanged:(NSNotification *)notification
+- (void)p_textViewDidChangeSelectionNotification:(NSNotification *)notification
 {
     if ([[notification object] isKindOfClass:[NSTextView class]]) {
         NSTextView* textView = (NSTextView *)[notification object];
@@ -84,10 +88,20 @@
         if (selectedRanges.count == 0) {
             return;
         }
-        
         NSRange selectedRange = [[selectedRanges objectAtIndex:0] rangeValue];
         NSString* text = textView.textStorage.string;
         self.selectedText = [text substringWithRange:selectedRange];
+    }
+}
+
+- (void)p_webViewDidChangeSelectionNotification:(NSNotification *)notification
+{
+    if ([[notification object] isKindOfClass:[WebView class]]) {
+        WebView *webView = (WebView *)notification.object;
+        DOMRange *range = webView.selectedDOMRange;
+        if (range.text) {
+            self.selectedText = range.text;
+        }
     }
 }
 
