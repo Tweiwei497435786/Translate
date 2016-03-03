@@ -93,7 +93,7 @@
 
 - (void)p_translate
 {
-    NSString *selectedText = [self.selectedText stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *selectedText = [self.selectedText stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];;
     NSString *url = [NSString stringWithFormat:@"%@%@",kAPI,selectedText];
     [self.translateController showWindow:self.translateController];
     self.translateController.url = url;
