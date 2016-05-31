@@ -10,8 +10,8 @@
 #include "TranslateController.h"
 #import <WebKit/WebKit.h>
 
-
-#define kAPI    @"http://translate.google.cn/?hl=en#en/zh-CN/"
+// 翻译网址
+static NSString * const kAPI = @"http://translate.google.cn/?hl=en#en/zh-CN/";
 
 @interface Translate()
 @property (nonatomic, strong, readwrite) NSBundle *bundle;
@@ -36,7 +36,10 @@
     if (self = [super init]) {
         // reference to plugin's bundle, for resource access
         self.bundle = plugin;
-        [self p_addNotificatonListener];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didApplicationFinishLaunchingNotification:)
+                                                     name:NSApplicationDidFinishLaunchingNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -47,6 +50,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
     
     [self p_addMenuItem];
+    
+    [self p_addNotificatonListener];
 }
 
 #pragma mark ----private method
@@ -54,30 +59,30 @@
 - (void)p_addNotificatonListener
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didApplicationFinishLaunchingNotification:)
-                                                 name:NSApplicationDidFinishLaunchingNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(p_textViewDidChangeSelectionNotification:)
                                                  name:NSTextViewDidChangeSelectionNotification                                                object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(p_webViewDidChangeSelectionNotification:)
                                                  name:WebViewDidChangeSelectionNotification                                                object:nil];
 }
-
-
 - (void)p_addMenuItem
 {
-    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-    if (menuItem) {
-        [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Translate" action:@selector(p_translate) keyEquivalent:@"T"];
-        [actionMenuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-        [actionMenuItem setTarget:self];
-        [[menuItem submenu] addItem:actionMenuItem];
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenuItem *pluginsMenuItem = [[NSApp mainMenu] itemWithTitle:@"Plugins"];
+    if (!pluginsMenuItem)
+    {
+        pluginsMenuItem = [[NSMenuItem alloc] init];
+        pluginsMenuItem.title = @"Plugins";
+        pluginsMenuItem.submenu = [[NSMenu alloc] initWithTitle:pluginsMenuItem.title];
+        NSInteger windowIndex = [mainMenu indexOfItemWithTitle:@"Window"];
+        [mainMenu insertItem:pluginsMenuItem atIndex:windowIndex];
     }
+
+    [[pluginsMenuItem submenu] addItem:[NSMenuItem separatorItem]];
+    NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"HLTranslate" action:@selector(p_translate) keyEquivalent:@"T"];
+    [actionMenuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+    [actionMenuItem setTarget:self];
+    [[pluginsMenuItem submenu] addItem:actionMenuItem];
 }
 
 - (void)p_textViewDidChangeSelectionNotification:(NSNotification *)notification
